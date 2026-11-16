@@ -39,8 +39,9 @@
         </form>
       {% else %}
         <div class="notice notice-error" role="alert">
-          Админы нууц үг тохируулаагүй байна. Аппыг эхлүүлэхээс өмнө
-          PowerShell дээр <code>$env:ADMIN_PASSWORD</code> утгыг тохируулна уу.
+          Админы нууц үг тохируулаагүй байна. <code>ADMIN_PASSWORD</code>
+          орчны хувьсагчийг тохируулна уу. Vercel дээр Project Settings →
+          Environment Variables хэсэгт нэмээд дахин deploy хийнэ үү.
         </div>
       {% endif %}
       <p class="privacy-note"><span aria-hidden="true">●</span> Админ хэсэг нууц үгээр хамгаалагдсан.</p>
