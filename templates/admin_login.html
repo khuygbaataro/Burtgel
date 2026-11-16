@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f7">
+  <title>Админ нэвтрэх | Бүртгэл</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="brand">
+      <a class="brand-mark brand-home" href="{{ url_for('register') }}" aria-label="Бүртгэлийн нүүр">Б</a>
+      <span>Бүртгэлийн удирдлага</span>
+    </header>
+
+    <section class="registration-card auth-card" aria-labelledby="page-title">
+      <div class="eyebrow">АДМИН ЭРХ</div>
+      <h1 id="page-title">Нэвтрэх</h1>
+      <p class="intro">Бүртгэгдсэн мэдээллийг харахын тулд админы нууц үгээ оруулна уу.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="notice notice-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if password_configured %}
+        <form method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <div class="field">
+            <label for="password">Нууц үг</label>
+            <input id="password" name="password" type="password" autocomplete="current-password"
+                   required autofocus>
+          </div>
+          <button type="submit">Нэвтрэх <span aria-hidden="true">→</span></button>
+        </form>
+      {% else %}
+        <div class="notice notice-error" role="alert">
+          Админы нууц үг тохируулаагүй байна. Аппыг эхлүүлэхээс өмнө
+          PowerShell дээр <code>$env:ADMIN_PASSWORD</code> утгыг тохируулна уу.
+        </div>
+      {% endif %}
+      <p class="privacy-note"><span aria-hidden="true">●</span> Админ хэсэг нууц үгээр хамгаалагдсан.</p>
+    </section>
+  </main>
+</body>
+</html>

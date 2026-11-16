@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f7">
+  <title>Бүртгэлүүд | Админ</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <a class="brand admin-brand" href="{{ url_for('register') }}">
+        <span class="brand-mark" aria-hidden="true">Б</span>
+        <span>Бүртгэлийн удирдлага</span>
+      </a>
+      <div class="admin-actions">
+        <a class="export-button" href="{{ url_for('export_registrations') }}">Excel татах <span aria-hidden="true">↓</span></a>
+        <form method="post" action="{{ url_for('admin_logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button class="logout-button" type="submit">Гарах</button>
+        </form>
+      </div>
+    </header>
+
+    <section class="admin-content" aria-labelledby="page-title">
+      <div class="eyebrow">АДМИН ХЭСЭГ</div>
+      <div class="admin-title-row">
+        <div>
+          <h1 id="page-title">Бүртгэгдсэн хүмүүс</h1>
+          <p class="intro">Нийт <strong>{{ registrations|length }}</strong> бүртгэл</p>
+        </div>
+        <a class="export-button export-mobile" href="{{ url_for('export_registrations') }}">Excel татах</a>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="notice notice-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      {% if registrations %}
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">Овог</th>
+                <th scope="col">Нэр</th>
+                <th scope="col">Утасны дугаар</th>
+                <th scope="col">Имэйл</th>
+                <th scope="col">Бүртгэсэн огноо</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for registration in registrations %}
+                <tr>
+                  <td>{{ registration.id }}</td>
+                  <td>{{ registration.surname }}</td>
+                  <td>{{ registration.first_name }}</td>
+                  <td>{{ registration.phone }}</td>
+                  <td>{{ registration.email }}</td>
+                  <td>{{ registration.created_at }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <span class="empty-mark" aria-hidden="true">—</span>
+          <h2>Одоогоор бүртгэл алга</h2>
+          <p>Шинэ бүртгэл хийгдэхэд энд харагдана.</p>
+        </div>
+      {% endif %}
+    </section>
+    <footer>Бүртгэлийн мэдээлэл зөвхөн админд харагдана.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="mn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f7">
+  <title>Бүртгэл | Хувийн мэдээлэл</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="page-shell">
+    <header class="brand">
+      <span class="brand-mark" aria-hidden="true">Б</span>
+      <span>Бүртгэлийн төв</span>
+      <a class="admin-link" href="{{ url_for('admin_login') }}">Админ нэвтрэх</a>
+    </header>
+
+    <section class="registration-card" aria-labelledby="page-title">
+      <div class="eyebrow">ХУВИЙН МЭДЭЭЛЭЛ</div>
+      <h1 id="page-title">Бүртгүүлэх</h1>
+      <p class="intro">Доорх мэдээллээ оруулж бүртгэлээ үүсгэнэ үү.</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="notice notice-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" novalidate>
+        <div class="field-row">
+          <div class="field">
+            <label for="surname">Овог</label>
+            <input id="surname" name="surname" type="text" autocomplete="family-name"
+                   placeholder="Жишээ: Бат" value="{{ values.surname }}" required maxlength="100">
+          </div>
+          <div class="field">
+            <label for="first_name">Нэр</label>
+            <input id="first_name" name="first_name" type="text" autocomplete="given-name"
+                   placeholder="Жишээ: Болд" value="{{ values.first_name }}" required maxlength="100">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="phone">Утасны дугаар</label>
+          <input id="phone" name="phone" type="tel" autocomplete="tel"
+                 placeholder="Жишээ: +976 9911 2233" value="{{ values.phone }}" required maxlength="24">
+        </div>
+
+        <div class="field">
+          <label for="email">Имэйл хаяг</label>
+          <input id="email" name="email" type="email" autocomplete="email"
+                 placeholder="bat@example.com" value="{{ values.email }}" required maxlength="254"
+                 aria-describedby="email-hint">
+          <p class="field-hint" id="email-hint">Формат: хэрэглэгчийн-нэр@домэйн.com — жишээ: <strong>bat@example.com</strong></p>
+        </div>
+
+        <button type="submit">Бүртгүүлэх <span aria-hidden="true">→</span></button>
+      </form>
+
+      <p class="privacy-note"><span aria-hidden="true">●</span> Таны мэдээлэл нууцлалтай хадгалагдана.</p>
+    </section>
+    <footer>Мэдээллээ зөв оруулсан эсэхээ шалгана уу.</footer>
+  </main>
+</body>
+</html>
